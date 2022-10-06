@@ -1,6 +1,5 @@
-import 'package:tuple/tuple.dart' show Tuple2;
-
 import '../dns.dart';
+import 'tuple.dart';
 
 ///
 ///

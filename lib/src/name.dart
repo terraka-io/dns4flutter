@@ -1,9 +1,7 @@
 import 'dart:convert' show ascii;
 import 'dart:typed_data' show Uint8List;
-
-import 'package:tuple/tuple.dart' show Tuple2;
-
 import '../dns.dart';
+import 'tuple.dart';
 
 
 class DNSName {

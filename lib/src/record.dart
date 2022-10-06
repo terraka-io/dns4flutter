@@ -1,5 +1,4 @@
-import 'package:tuple/tuple.dart' show Tuple2;
-
+import 'package:dns4flutter/src/tuple.dart';
 import '../dns.dart';
 
 class DNSRecord {
