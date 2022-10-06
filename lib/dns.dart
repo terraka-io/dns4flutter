@@ -51,7 +51,7 @@ class DNS {
   static const  int QCLASS_CH = 3; // the CHAOS class
   static const  int QCLASS_HS = 4; // Hesiod [Dyer 87]
 
-  static DNSBuffer generateAMessage(String host, {int id = 0x1234,int type = DNS.QTYPE_A}) {
+  static DNSBuffer generateAMessage(String host, {int id = 0x1234,int type = DNS.QTYPE_TXT}) {
     var headerBuffer = (DNSHeader()..id = id).generateBuffer();
     var questionBuffer = (DNSQuestion()..qName = host ..qType =type).generateBuffer();
     return DNSBuffer.combine([headerBuffer, questionBuffer]);

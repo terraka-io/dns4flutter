@@ -1,3 +1,4 @@
+import 'package:dns_example/request_arecord.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -16,16 +17,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-
-
   @override
   void initState() {
     super.initState();
 
+    dnsQueryUrls.forEach((element) async {
+      try{
+        await run('front.jetstream.site', element);
+      }catch(e){
+        print("报错地址$element $e");
+      }
+    });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
