@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:dns/dns.dart';
+import 'package:dns4flutter/dns.dart';
 
 void main() {
   runApp(const MyApp());

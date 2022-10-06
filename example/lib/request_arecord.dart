@@ -3,7 +3,7 @@ import 'dart:io' as io;
 import 'dart:convert' show Utf8Decoder, json, utf8;
 
 
-import 'package:dns/dns.dart';
+import 'package:dns4flutter/dns.dart';
 
 main(List<String> argv) async {
   var domain = 'front.jetstream.site';

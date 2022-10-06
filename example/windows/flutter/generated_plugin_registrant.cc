@@ -6,7 +6,7 @@
 
 #include "generated_plugin_registrant.h"
 
-#include <dns/dns_plugin_c_api.h>
+#include <dns4flutter/dns_plugin_c_api.h>
 
 void RegisterPlugins(flutter::PluginRegistry* registry) {
   DnsPluginCApiRegisterWithRegistrar(

@@ -1,6 +1,6 @@
 import 'dart:io' as io;
 
-import 'package:dns/dns.dart';
+import 'package:dns4flutter/dns.dart';
 
 
 main(List<String> argv) async {
