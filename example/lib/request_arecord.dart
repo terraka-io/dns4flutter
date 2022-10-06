@@ -1,6 +1,5 @@
+import 'dart:convert';
 import 'dart:io' as io;
-import 'dart:convert' show Utf8Decoder, json, utf8;
-
 import 'package:dns4flutter/dns.dart';
 
 const List<String> dnsQueryUrls = [
@@ -9,6 +8,12 @@ const List<String> dnsQueryUrls = [
   "beacon.dog",
   "doh.360.cn"
 ];
+
+const https = "https://";
+
+_parseAddress(String data) {
+  return https + data.split("=").last;
+}
 
 Future<void> run(String argv,String host) async {
   var domain = argv;
@@ -25,12 +30,6 @@ Future<void> run(String argv,String host) async {
       path: 'dns-query',
       query: "dns=${requestQuery}"));
   var response = await request.close();
-
-  // var dio = Dio();
-  // dio.interceptors.add(LogInterceptor(responseBody: true));
-  // var response1 =await  dio.get("doh.pub",queryParameters: {"dns":requestQuery});
-  // print('; Response dio json  $response1');
-  // print('; Response dio data  ${response1.data}');
 
   var statusCode = response.statusCode;
   print('; Response $host');
@@ -72,7 +71,21 @@ Future<void> run(String argv,String host) async {
       // print(';; rdlength: ${record.rdlength}');
       // print(';; rdata: ${record.rdata}');
       // print(';; rdata athex: ${DNSBuffer.fromList(record.rdata).toString()}');
-      print(';; rdata utf-8: ${utf8.decode(record.rdata, allowMalformed: true)}');
+      var rdata = utf8.decode(record.rdata, allowMalformed: true);
+      print(';; rdata utf-8: rdata}');
+
+      //裁切
+      var list = rdata.split(":");
+      list.forEach((element) {
+        if (element.contains("host")) {
+          String host1 = _parseAddress(element);
+          print("host" + host1);
+        } else if (element.contains("web")) {
+          String web = _parseAddress(element);
+          print("web" + web);
+        }
+      });
+
       print(';; -- ');
     }
   }
@@ -109,4 +122,8 @@ Future<void> run(String argv,String host) async {
       // print(';; -- ');
     }
   }
+
+
 }
+
+
