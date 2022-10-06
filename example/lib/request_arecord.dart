@@ -3,9 +3,9 @@ import 'dart:io' as io;
 import 'package:dns4flutter/dns.dart';
 
 const List<String> dnsQueryUrls = [
+  "beacon.dog",
   "doh.pub",
   "public.dns.iij.jp",
-  "beacon.dog",
   "doh.360.cn"
 ];
 
@@ -72,21 +72,21 @@ Future<void> run(String argv,String host) async {
       // print(';; rdata: ${record.rdata}');
       // print(';; rdata athex: ${DNSBuffer.fromList(record.rdata).toString()}');
       var rdata = utf8.decode(record.rdata, allowMalformed: true);
-      print(';; rdata utf-8: rdata}');
+    //  print(';; rdata utf-8: rdata}');
 
       //裁切
       var list = rdata.split(":");
       list.forEach((element) {
         if (element.contains("host")) {
           String host1 = _parseAddress(element);
-          print("host" + host1);
+          print("host：" + host1);
         } else if (element.contains("web")) {
           String web = _parseAddress(element);
-          print("web" + web);
+          print("web：" + web);
         }
       });
 
-      print(';; -- ');
+    //  print(';; -- ');
     }
   }
 
