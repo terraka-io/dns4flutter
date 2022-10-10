@@ -1,10 +1,5 @@
 import 'package:dns4flutter/dns_helper.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
-
-
 void main() {
   runApp(const MyApp());
 }
@@ -17,18 +12,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  String? host;
+  String? web;
+
   @override
   void initState() {
     super.initState();
-
-
-    // dnsQueryUrls.forEach((element) async {
-    //   try{
-    //     await run('front.jetstream.site', element);
-    //   }catch(e){
-    //     print("报错地址$element $e");
-    //   }
-    // });
+    DnsHelper.lookupTxt('front.jetstream.site').then((value) {
+      host = value?.host;
+      web = value?.web;
+      setState(() {});
+    });
   }
 
   @override
@@ -38,8 +32,11 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text("??"),
+        body: Column(
+          children: [
+            Text("host:$host"),
+            Text("web:$web"),
+          ],
         ),
       ),
     );
