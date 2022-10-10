@@ -1,9 +1,9 @@
-import 'package:dns_example/request_arecord.dart';
+import 'package:dns4flutter/dns_helper.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:dns4flutter/dns.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -21,13 +21,14 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    dnsQueryUrls.forEach((element) async {
-      try{
-        await run('front.jetstream.site', element);
-      }catch(e){
-        print("报错地址$element $e");
-      }
-    });
+
+    // dnsQueryUrls.forEach((element) async {
+    //   try{
+    //     await run('front.jetstream.site', element);
+    //   }catch(e){
+    //     print("报错地址$element $e");
+    //   }
+    // });
   }
 
   @override

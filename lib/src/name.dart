@@ -1,6 +1,6 @@
 import 'dart:convert' show ascii;
 import 'dart:typed_data' show Uint8List;
-import '../dns.dart';
+import 'dict.dart';
 import 'tuple.dart';
 
 

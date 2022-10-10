@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io' as io;
-import 'package:dns4flutter/dns.dart';
+import 'package:dns4flutter/src/dns.dart';
+
+import 'buffer.dart';
 
 const List<String> dnsQueryUrls = [
   "beacon.dog",

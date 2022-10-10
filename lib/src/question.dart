@@ -1,4 +1,6 @@
-import '../dns.dart';
+import 'dns.dart';
+import 'buffer.dart';
+import 'name.dart';
 import 'tuple.dart';
 
 ///

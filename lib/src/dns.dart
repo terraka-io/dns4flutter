@@ -1,11 +1,8 @@
-import 'dns.dart';
+import 'header.dart';
+import 'buffer.dart';
+import 'question.dart';
+import 'record.dart';
 
-export 'src/header.dart';
-export 'src/buffer.dart';
-export 'src/question.dart';
-export 'src/record.dart';
-export 'src/name.dart';
-export 'src/dict.dart';
 
 class DNSMessage {
   DNSHeader header;

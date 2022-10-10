@@ -1,5 +1,6 @@
 import 'package:dns4flutter/src/tuple.dart';
-import '../dns.dart';
+import 'buffer.dart';
+import 'name.dart';
 
 class DNSRecord {
 

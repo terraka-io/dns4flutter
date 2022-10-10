@@ -1,7 +1,8 @@
 
 import 'dart:math' show Random;
 
-import '../dns.dart';
+import 'dns.dart';
+import 'buffer.dart';
 
 class DNSHeader {
   static final BUFFER_SIZE = 12;
