@@ -64,7 +64,7 @@ class DnsHelper {
       } else if (element.contains("web")) {
         web = https + element.split("=").last;
       } else if (element.contains("aff")) {
-        aff = element.split("=").last;
+        aff = https + element.split("=").last;
       }
     }
     if (web.isNotEmpty && host.isNotEmpty) {
