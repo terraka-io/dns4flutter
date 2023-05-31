@@ -57,15 +57,18 @@ class DnsHelper {
     var list = data.split(":");
     String web = "";
     String host = "";
+    String aff = "";
     for (var element in list) {
       if (element.contains("host")) {
         host = https + element.split("=").last;
       } else if (element.contains("web")) {
         web = https + element.split("=").last;
+      } else if (element.contains("aff")) {
+        aff = element.split("=").last;
       }
     }
     if (web.isNotEmpty && host.isNotEmpty) {
-      return DnsResponse(host, web);
+      return DnsResponse(host, web, aff);
     }
     return null;
   }
