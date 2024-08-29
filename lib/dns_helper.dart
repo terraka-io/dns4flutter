@@ -68,7 +68,7 @@ class DnsHelper {
       } else if (element.contains("aff")) {
         aff = https + element.split("=").last;
       } else if (element.contains("api")) {
-        api = https + element.split("=").last;
+        api =  element.split("=").last;
       }
     }
     return DnsResponse(data, host: host, web: web, aff: aff, api: api);
