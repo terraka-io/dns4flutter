@@ -31,7 +31,8 @@ class DnsHelper {
 
     for (var dnsUrl in dnsUrls) {
       try {
-        var request = await _httpClient.getUrl(Uri.parse("$dnsUrl?dns=$requestQuery"));
+        var request =
+            await _httpClient.getUrl(Uri.parse("$dnsUrl?dns=$requestQuery"));
         var response = await request.close();
         var responseBuffer = <int>[];
         await for (var part in response) {
@@ -52,12 +53,13 @@ class DnsHelper {
     return null;
   }
 
-  static DnsResponse? _parseData(String data) {
+  static DnsResponse _parseData(String data) {
     //裁切
     var list = data.split(":");
-    String web = "";
-    String host = "";
-    String aff = "";
+    String? web;
+    String? host;
+    String? aff;
+    String? api;
     for (var element in list) {
       if (element.contains("host")) {
         host = https + element.split("=").last;
@@ -65,11 +67,10 @@ class DnsHelper {
         web = https + element.split("=").last;
       } else if (element.contains("aff")) {
         aff = https + element.split("=").last;
+      } else if (element.contains("api")) {
+        api = https + element.split("=").last;
       }
     }
-    if (web.isNotEmpty && host.isNotEmpty) {
-      return DnsResponse(host, web, aff);
-    }
-    return null;
+    return DnsResponse(data, host: host, web: web, aff: aff, api: api);
   }
 }

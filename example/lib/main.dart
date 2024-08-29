@@ -14,6 +14,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String? host;
   String? web;
+  String? origin;
 
   @override
   void initState() {
@@ -21,6 +22,7 @@ class _MyAppState extends State<MyApp> {
     DnsHelper.lookupTxt('front.jetstream.site').then((value) {
       host = value?.host;
       web = value?.web;
+      origin = value?.origin;
       setState(() {});
     });
   }
@@ -36,6 +38,7 @@ class _MyAppState extends State<MyApp> {
           children: [
             Text("host:$host"),
             Text("web:$web"),
+            Text("origin:$origin"),
           ],
         ),
       ),
