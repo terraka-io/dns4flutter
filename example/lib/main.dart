@@ -1,5 +1,6 @@
 import 'package:dns4flutter/dns_helper.dart';
 import 'package:flutter/material.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -19,6 +20,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    DnsHelper.initializeLogging();
     DnsHelper.lookupTxt('front.jetstream.site').then((value) {
       host = value?.host;
       web = value?.web;
