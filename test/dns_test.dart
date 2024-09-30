@@ -1,9 +1,5 @@
 import 'package:dns4flutter/dns_helper.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:logging/logging.dart';
-import 'dart:io';
-import 'package:dns4flutter/src/dns.dart';
-import 'package:dns4flutter/src/buffer.dart';
 
 void main() {
   group('DnsHelper', () {
