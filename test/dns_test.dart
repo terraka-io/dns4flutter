@@ -1,6 +1,9 @@
 import 'package:dns4flutter/dns_helper.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:logging/logging.dart';
+import 'dart:io';
+import 'package:dns4flutter/src/dns.dart';
+import 'package:dns4flutter/src/buffer.dart';
 
 void main() {
   group('DnsHelper', () {
@@ -8,10 +11,8 @@ void main() {
       final result = await DnsHelper.lookupTxt("front.flashvpn.io");
 
       expect(result, isNotNull);
-      expect(result!.origin, isNotEmpty);
-      // Add more specific expectations based on the expected TXT record
-      // For example:
-      // expect(result.origin, contains('expected-text'));
+      expect(result!.api, isNotNull);
+      expect(result.web, isNotNull);
     });
 
     test('lookupTxt returns null for non-existent domain', () async {
@@ -20,6 +21,19 @@ void main() {
       expect(result, isNull);
     });
 
-    // Add more tests as needed
+    test('lookupIp returns correct IP address for domain', () async {
+      final result = await DnsHelper.lookupARecords("flashvpn.io");
+
+      expect(result, isNotEmpty);
+      expect(result.first,
+          matches(RegExp(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$')));
+    });
+
+    test('lookupIp returns null for non-existent domain', () async {
+      final result =
+          await DnsHelper.lookupARecords("non-existent-domain.example");
+
+      expect(result, isEmpty);
+    });
   });
 }
