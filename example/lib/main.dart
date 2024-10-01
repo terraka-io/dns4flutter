@@ -68,7 +68,6 @@ class _MyAppState extends State<MyApp> {
     try {
       final response = await dio.get('https://$domain');
       print('Response status: ${response.statusCode}');
-      print('Response body: ${response.data}');
 
       // Get the first 100 words from the response
       if (response.data is String) {

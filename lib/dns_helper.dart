@@ -24,7 +24,8 @@ class DnsHelper {
     if (!_loggingInitialized) {
       Logger.root.level = Level.ALL;
       Logger.root.onRecord.listen((record) {
-        print('${record.level.name}: ${record.time}: ${record.message}');
+        print(
+            '${record.level.name}: DNSHelper: ${record.time}: ${record.message}');
       });
       _loggingInitialized = true;
       _logger.info('Logging initialized');
@@ -117,6 +118,7 @@ class DnsHelper {
       var cachedResult = _dnsCache[domain]!;
       if (DateTime.now().difference(cachedResult.timestamp).inMinutes < 5) {
         _logger.info('Returning cached A records for $domain');
+        _logger.info('Found cached A records: $cachedResult.ips for $domain');
         return cachedResult.ips;
       }
     }
