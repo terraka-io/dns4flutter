@@ -18,7 +18,7 @@ class DnsHelper {
 
   static bool _loggingInitialized = false;
 
-  static var timeoutSeconds = 5;
+  static var timeoutMilliseconds = 1000;
 
   static void initializeLogging() {
     if (!_loggingInitialized) {
@@ -59,7 +59,7 @@ class DnsHelper {
         _logger.info('Requesting DNS record for $host from $dnsUrl');
         // Add a timeout to the response
         var response =
-            await request.close().timeout(Duration(milliseconds: 500));
+            await request.close().timeout(const Duration(milliseconds: 500));
 
         var responseBody = await utf8.decodeStream(response);
         var jsonResponse = jsonDecode(responseBody);
@@ -134,7 +134,8 @@ class DnsHelper {
     List<String> allIps = [];
 
     try {
-      var results = await group.future.timeout(Duration(seconds: 10));
+      var results = await group.future
+          .timeout(Duration(milliseconds: timeoutMilliseconds));
       for (var ips in results) {
         allIps.addAll(ips);
       }
@@ -159,8 +160,9 @@ class DnsHelper {
           await _httpClient.getUrl(Uri.parse("$dnsUrl?$requestQuery"));
       _logger.info('Requesting A records from $dnsUrl');
 
-      var response =
-          await request.close().timeout(Duration(seconds: timeoutSeconds));
+      var response = await request
+          .close()
+          .timeout(Duration(milliseconds: timeoutMilliseconds));
       var responseBody = await utf8.decodeStream(response);
       var jsonResponse = jsonDecode(responseBody);
 
