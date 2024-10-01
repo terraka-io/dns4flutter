@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 import 'package:dns4flutter/dns_response.dart';
-import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 import 'package:async/async.dart';
 
@@ -136,7 +135,7 @@ class DnsHelper {
 
     try {
       var results = await group.future
-          .timeout(Duration(milliseconds: timeoutMilliseconds));
+          .timeout(Duration(milliseconds: timeoutMilliseconds * 2));
       for (var ips in results) {
         allIps.addAll(ips);
       }

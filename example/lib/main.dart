@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   String? host;
   String? web;
   String? origin;
-
+  String? flashvpnIo;
   @override
   void initState() {
     super.initState();
@@ -48,6 +48,7 @@ class _MyAppState extends State<MyApp> {
             Text("host:$host"),
             Text("web:$web"),
             Text("origin:$origin"),
+            Text("flashvpn.io: $flashvpnIo"),
           ],
         ),
       ),
@@ -68,6 +69,15 @@ class _MyAppState extends State<MyApp> {
       final response = await dio.get('https://$domain');
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.data}');
+
+      // Get the first 100 words from the response
+      if (response.data is String) {
+        List<String> words = response.data.split(RegExp(r'\s+'));
+        flashvpnIo = words.take(10).join(' ');
+      } else {
+        flashvpnIo = 'Response data is not a string';
+      }
+      setState(() {});
     } catch (e) {
       print('Error: $e');
     }
