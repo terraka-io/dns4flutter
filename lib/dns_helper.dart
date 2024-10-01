@@ -161,7 +161,7 @@ class DnsHelper {
     try {
       var request =
           await _httpClient.getUrl(Uri.parse("$dnsUrl?$requestQuery"));
-      _logger.info('Requesting A records from $dnsUrl');
+      _logger.info('Requesting A records from $dnsUrl for $requestQuery');
 
       var response = await request
           .close()
@@ -179,13 +179,14 @@ class DnsHelper {
         }
       }
 
-      _logger.info('Parsed ${ips.length} IP(s) from JSON response');
+      _logger.info(
+          'Parsed ${ips.length} IP(s) from JSON response from $dnsUrl for $requestQuery ');
       return ips;
     } catch (e) {
       if (e is TimeoutException) {
-        _logger.warning('Timeout querying $dnsUrl');
+        _logger.warning('Timeout querying $dnsUrl for $requestQuery');
       } else {
-        _logger.warning('Error querying $dnsUrl: $e');
+        _logger.warning('Error querying $dnsUrl for $requestQuery: $e');
       }
       return [];
     }
