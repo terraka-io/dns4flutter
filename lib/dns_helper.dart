@@ -43,8 +43,8 @@ class DnsHelper {
 
   static const List<String> _defaultDnsUrls = [
     "https://doh.pub/dns-query",
-    "https://beacon.dog/dns-query",
-    "https://doh.360.cn/dns-query"
+    "https://doh.360.cn/resolve",
+    "https://dns.alidns.com/resolve"
   ];
 
   static final _httpClient = HttpClient();
