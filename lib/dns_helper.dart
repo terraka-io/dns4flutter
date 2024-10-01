@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 import 'package:dns4flutter/dns_response.dart';
+import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 import 'package:async/async.dart';
 
@@ -149,7 +150,8 @@ class DnsHelper {
     // Cache the result
     _dnsCache[domain] = CachedDnsResult(uniqueIps, DateTime.now());
 
-    _logger.info('Found ${uniqueIps.length} unique IP(s) for $domain');
+    _logger
+        .info('Found ${uniqueIps.length} unique IP(s) for $domain: $uniqueIps');
     return uniqueIps;
   }
 
