@@ -89,6 +89,10 @@ class DnsHelper {
   }
 
   static DnsResponse _parseData(String data) {
+    // Strip the leading and trailing double quotes from the data
+    if (data.startsWith('"') && data.endsWith('"')) {
+      data = data.substring(1, data.length - 1);
+    }
     //裁切
     var list = data.split(":");
     String? web;
