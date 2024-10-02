@@ -5,14 +5,14 @@ homepage:
 
 environment:
   sdk: '>=3.3.4 <4.0.0'
-  flutter: ">=1.17.0"
+  flutter: ">=3.19.6"
 
 dependencies:
   flutter:
     sdk: flutter
-  logging: 1.2.0  # Use the latest version available
-  async: 2.11.0
-  dio: 5.3.2  # Use the latest version
+  logging: ^1.2.0  # Use the latest version available
+  async: ^2.11.0
+  dio: ^5.3.2  # Use the latest version
 
 dev_dependencies:
   flutter_test:

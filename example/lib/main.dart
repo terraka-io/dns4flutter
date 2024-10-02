@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:dio/io.dart';
 import 'package:dio_compatibility_layer/dio_compatibility_layer.dart';
 import 'package:dns4flutter/dns_helper.dart';
 import 'package:flutter/material.dart';
