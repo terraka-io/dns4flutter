@@ -113,6 +113,11 @@ class DnsHelper {
 
   static Future<List<String>> lookupARecords(String domain,
       {List<String> dnsUrls = _defaultDnsUrls}) async {
+    // Skip localhost lookup
+    if (domain.toLowerCase() == 'localhost') {
+      _logger.info('Skipping DNS lookup for localhost');
+      return ['127.0.0.1'];
+    }
     // Check cache first
     if (_dnsCache.containsKey(domain)) {
       var cachedResult = _dnsCache[domain]!;

@@ -34,6 +34,8 @@ class _MyAppState extends State<MyApp> {
       setState(() {});
     });
     makeRequest('flashvpn.io');
+    makeRequest('127.0.0.1');
+    makeRequest('localhost');
   }
 
   @override
