@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 import 'package:dns4flutter/dns_response.dart';
-import 'package:logging/logging.dart';
+import 'package:flutter/foundation.dart';
+import 'package:logger/logger.dart';
 import 'package:async/async.dart';
 
 // use case
@@ -14,31 +15,32 @@ import 'package:async/async.dart';
 // }
 
 class DnsHelper {
-  static final Logger _logger = Logger('DnsHelper');
-
-  static bool _loggingInitialized = false;
+  static final Logger _logger = kReleaseMode
+      ? Logger(
+          level: Level.warning,
+          printer: PrettyPrinter(
+            methodCount: 0,
+            errorMethodCount: 8,
+            lineLength: 120,
+            colors: true,
+            printEmojis: true,
+            printTime: true,
+          ),
+          filter: ProductionFilter(),
+        )
+      : Logger(
+          level: Level.verbose,
+          printer: PrettyPrinter(
+            methodCount: 0,
+            errorMethodCount: 8,
+            lineLength: 120,
+            colors: true,
+            printEmojis: true,
+            printTime: true,
+          ),
+        );
 
   static var timeoutMilliseconds = 1000;
-
-  static void initializeLogging() {
-    if (!_loggingInitialized) {
-      Logger.root.level = Level.ALL;
-      Logger.root.onRecord.listen((record) {
-        print(
-            '${record.level.name}: DNSHelper: ${record.time}: ${record.message}');
-      });
-      _loggingInitialized = true;
-      _logger.info('Logging initialized');
-    } else {
-      _logger.warning('Logging already initialized. Skipping initialization.');
-    }
-  }
-
-  // call this in prod to lower the log level, now it's WARNING
-  static void setProductionLogLevel() {
-    Logger.root.level = Level.WARNING;
-    _logger.info('Log level set to WARNING for production');
-  }
 
   static const https = "https://";
 
@@ -57,7 +59,7 @@ class DnsHelper {
             await _httpClient.getUrl(Uri.parse("$dnsUrl?name=$host&type=TXT"));
         request.headers.set('accept', 'application/dns-json');
 
-        _logger.info('Requesting DNS record for $host from $dnsUrl');
+        _logger.i('Requesting DNS record for $host from $dnsUrl');
         // Add a timeout to the response
         var response =
             await request.close().timeout(const Duration(milliseconds: 500));
@@ -71,20 +73,20 @@ class DnsHelper {
             if (answer['type'] == 16) {
               // TXT record type
               var rdata = answer['data'];
-              _logger.info('Parsed TXT record: $rdata');
+              _logger.i('Parsed TXT record: $rdata');
               return _parseData(rdata);
             }
           }
         }
       } catch (e) {
         if (e is TimeoutException) {
-          _logger.warning('Request timed out for $dnsUrl');
+          _logger.w('Request timed out for $dnsUrl');
         } else {
-          _logger.warning('Error occurred: $e');
+          _logger.w('Error occurred: $e');
         }
       }
     }
-    _logger.severe('No DNS record found for $host');
+    _logger.e('No DNS record found for $host');
     return null;
   }
 
@@ -119,15 +121,15 @@ class DnsHelper {
       {List<String> dnsUrls = _defaultDnsUrls}) async {
     // Skip localhost lookup
     if (domain.toLowerCase() == 'localhost') {
-      _logger.info('Skipping DNS lookup for localhost');
+      _logger.i('Skipping DNS lookup for localhost');
       return ['127.0.0.1'];
     }
     // Check cache first
     if (_dnsCache.containsKey(domain)) {
       var cachedResult = _dnsCache[domain]!;
       if (DateTime.now().difference(cachedResult.timestamp).inMinutes < 5) {
-        _logger.info('Returning cached A records for $domain');
-        _logger.info('Found cached A records: $cachedResult.ips for $domain');
+        _logger.i('Returning cached A records for $domain');
+        _logger.i('Found cached A records: ${cachedResult.ips} for $domain');
         return cachedResult.ips;
       }
     }
@@ -151,7 +153,7 @@ class DnsHelper {
         allIps.addAll(ips);
       }
     } on TimeoutException {
-      _logger.warning('Timeout occurred while querying DNS servers');
+      _logger.w('Timeout occurred while querying DNS servers');
     }
 
     // Remove duplicates
@@ -160,8 +162,7 @@ class DnsHelper {
     // Cache the result
     _dnsCache[domain] = CachedDnsResult(uniqueIps, DateTime.now());
 
-    _logger
-        .info('Found ${uniqueIps.length} unique IP(s) for $domain: $uniqueIps');
+    _logger.i('Found ${uniqueIps.length} unique IP(s) for $domain: $uniqueIps');
     return uniqueIps;
   }
 
@@ -170,7 +171,7 @@ class DnsHelper {
     try {
       var request =
           await _httpClient.getUrl(Uri.parse("$dnsUrl?$requestQuery"));
-      _logger.info('Requesting A records from $dnsUrl for $requestQuery');
+      _logger.i('Requesting A records from $dnsUrl for $requestQuery');
 
       var response = await request
           .close()
@@ -188,14 +189,14 @@ class DnsHelper {
         }
       }
 
-      _logger.info(
-          'Parsed ${ips.length} IP(s) from JSON response from $dnsUrl for $requestQuery ');
+      _logger.i(
+          'Parsed ${ips.length} IP(s) from JSON response from $dnsUrl for $requestQuery');
       return ips;
     } catch (e) {
       if (e is TimeoutException) {
-        _logger.warning('Timeout querying $dnsUrl for $requestQuery');
+        _logger.w('Timeout querying $dnsUrl for $requestQuery');
       } else {
-        _logger.warning('Error querying $dnsUrl for $requestQuery: $e');
+        _logger.w('Error querying $dnsUrl for $requestQuery: $e');
       }
       return [];
     }
